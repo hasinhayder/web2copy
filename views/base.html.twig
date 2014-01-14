@@ -1,0 +1,57 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Welcome To Web2Copy{% endblock %}</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed"/>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Londrina+Solid"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/style.css?2"/>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% block toolbar %}
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <p class="logo"><a href="/">WEB<b>2</b>COPY</a></p>
+            </div>
+            <div class="col-lg-6">
+                <ul class="navigation pull-right">
+                    <li id="hiw"><a href="/#hiw">How it Works</a></li>
+                    {%  if session.user_id %}<li><a href="/dashboard">Dashboard</a></li>{% endif %}
+                    <li><a href="/pages/api">API</a></li>
+                    <li><a href="/pages/tc">Terms</a></li>
+                    <li><a href="/pages/about-us">About</a></li>
+                    <li><a href="/pages/contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block body %} Welcome To Web2Copy {% endblock %}
+{% block footer %}
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>© 2014 Web2Copy  </p>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.7/jquery.scrollTo.min.js"></script>
+<script src="/js/main.js?2"></script>
+{% block customjs %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,14 @@
+runtime 'binary'
+
+# Boilerplate code
+exec 'runner.sh'
+file '__runner__.php'
+file 'php.ini'
+file 'common.php'
+dir 'iron'
+
+# Real worker file
+file 'uploader.php'
+
+# Extensions
+dir 'modules'

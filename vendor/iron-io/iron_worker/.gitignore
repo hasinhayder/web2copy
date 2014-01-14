@@ -1,0 +1,13 @@
+log/*.log
+code/*.zip
+examples/code/*.zip
+examples/log/*.log
+examples
+*.log
+out-*.txt
+tmp/
+.DS_Store
+*.esproj/
+.idea/
+config.ini
+/__*

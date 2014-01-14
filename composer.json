@@ -1,0 +1,12 @@
+{
+	"require":{
+		"iron-io/iron_mq":"*",
+		"iron-io/iron_cache":"*",
+		"iron-io/iron_worker":"*",
+		"twig/twig":"1.*",
+        "doctrine/dbal": "2.3.4",
+        "monolog/monolog":"*",
+        "mailgun/mailgun-php":"*",
+        "waltertamboer/pharcompiler":"*"
+	}
+}

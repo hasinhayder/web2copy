@@ -1,0 +1,28 @@
+RewriteEngine On
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+
+RewriteRule ^connect[/]?([/s].+)$ index.php?connect=1
+RewriteRule ^auth[\?]?(.*)$ index.php?auth=1&$1 [QSA,L]
+RewriteRule ^api/(.+)$ index.php?api=1&data=$1 [QSA,L]
+RewriteRule ^copy[/]?([/s].+)$ index.php?copy=1
+RewriteRule ^dashboard[/]?([/s].+)$ index.php?dashboard=1
+RewriteRule ^mailer[/]?([/s].+)$ index.php?mailer=1
+RewriteRule ^ajax[/]?([/s].+)$ index.php?ajax=1
+RewriteRule ^pages/?(.*)$ index.php?page=1&data=$1 [QSA,L]
+#RewriteRule ^threads/(\d+)*$ ./thread.php?id=$1
+
+RewriteRule ^connect[/]?$ index.php?connect=1
+RewriteRule ^api[/]?$ index.php?api=1
+RewriteRule ^copy[/]?$ index.php?copy=1
+RewriteRule ^dashboard[/]?$ index.php?dashboard=1
+RewriteRule ^mailer[/]?$ index.php?mailer=1
+RewriteRule ^ajax[/]?$ index.php?ajax=1
+RewriteRule ^pages[/]?$ index.php?page=1
+#RewriteRule ^search/(.*)$ ./search.php?query=$1
+
+RewriteRule ^js/([\S\s\.]+) web/js/$1
+RewriteRule ^css/([\S\s\.]+) web/css/$1
+RewriteRule ^img/([\S\s\.]+) web/img/$1

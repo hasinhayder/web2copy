@@ -1,0 +1,314 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="dashmain">
+                        <h1>Web2Copy Dashboard</h1>
+
+                        <h2>Generate Tokens, Monitor Usage and Take Actions</h2>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="widget">
+                        <h3><i class="fa fa-cloud-upload"></i> &nbsp;Weekly Bandwidth</h3>
+                        <h4>760 MB Used</h4>
+
+                        <div class="bar" style="">
+                            <div class="filler" style="width: 71%;"></div>
+                        </div>
+                        <p>300 MB Remaining</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="widget">
+                        <h3><i class="fa fa-cloud-upload"></i> &nbsp;21.7 GB Total Bandwidth</h3>
+                        <h4>400 MB Used Today</h4>
+
+                        <p>700 Files Transferred</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul id="dashboardtabs" class="nav nav-tabs">
+                        <li class="active"><a href="#tokengen">Generate Token</a></li>
+                        <li><a href="#phargen">Command Line Tool</a></li>
+                    </ul>
+                    <form action="" method="POST" id="tokengen">
+                        <div class="form-group">
+                            <label for="path">Path to save file in your copy.com storage for this token</label>
+                            <input type="text" value="/" class="form-control" id="path" name="path"
+                                   placeholder="Path starts with /">
+                        </div>
+                        <div class="form-group">
+                            <label for="number">Usable for how many times</label>
+                            <input type="number" class="form-control" style="width:300px" id="usable"
+                                   placeholder="Number" name="usable" value="1">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-warning">Generate Token</button> or  <a class="btn btn-success" data-toggle="modal" data-target="#myModal">Use a Token</a>
+                        </div>
+                    </form>
+                    <form action="" method="POST" id="phargen">
+                        <div class="form-group">
+                            <label for="path">Password for your personalized phar</label>
+                            <input type="password" style="width:300px" value="" class="form-control" id="password" name="password"
+                                   placeholder="">
+                        </div>
+
+                        <div class="form-group" id="pharbuttons">
+                            <button type="submit" id="generatephar" class="btn btn-warning">
+                                <i class="fa fa-spinner fa-spin" id="spinner2"></i> Generate Phar
+                            </button>
+                        </div>
+
+                        <pre id="help">
+# How to use this web2copy.phar? In your terminal type the following commands
+
+<code>
+    $ chmod +x web2copy.phar
+    $ ./web2copy.phar /path/of/the/local/file
+</code>
+
+# Web2Copy command line tool will ask for the same password which you used to generated it. Please regenerate if you've forgotten the password.
+                        </pre>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="unexpired">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dashmain">
+                        <h2>List of Usable Tokens</h2>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tokens">
+                        <table class="table">
+                            {% if validtokens %}
+                                <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th width="50%">Token</th>
+                                    <th width="">Created (d/m/y)</th>
+                                    <th width="">Bandwidth</th>
+                                    <th>Used</th>
+                                    <th>Usable</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for token in validtokens %}
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-minus-circle"></i>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="">{{ token.token | upper }}</span><br/>
+                                                <span class="path">{{ token.token_path }}</span>
+                                            </p>
+
+                                        </td>
+                                        <td>{{ token.created|date("d/m/Y") }}</td>
+                                        <td>{{ token.total_bandwidth }}</td>
+                                        <td>{{ token.used }}</td>
+                                        <td>{{ token.usable - token.used }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            {% else %}
+                                <tbody>
+                                <tr>
+                                    <td colspan="4"> No available tokens!</td>
+                                </tr>
+                                </tbody>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="unexpired">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dashmain">
+                        <h2>List of Expired Tokens</h2>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tokens">
+                        <table class="table">
+                            {% if expiredtokens %}
+                                <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th width="60%">Token</th>
+                                    <th width="15%">Generated</th>
+                                    <th>Used</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for token in expiredtokens %}
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-minus-circle"></i>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="">{{ token.token | upper }}</span><br/>
+                                                <span class="path">{{ token.token_path }}</span>
+                                            </p>
+
+                                        </td>
+                                        <td>{{ token.created|date("d/m/Y") }}</td>
+                                        <td>{{ token.used }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            {% else %}
+                                <tbody>
+                                <tr>
+                                    <td colspan="4"> No expired tokens!</td>
+                                </tr>
+                                </tbody>
+
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h1>Want to use a token? Here you go!</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="mainform">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <form action="" method="POST" id="tokenizer">
+                                        <div class="form-group">
+                                            <label for="number">Token*</label>
+                                            <input type="text" class="form-control" style="width:300px" id="token"
+                                                   placeholder="token" name="token" value="{{ dt.token }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="path">URL* (should start with http/https)</label>
+                                            <input type="text" style="width:500px" value="" class="form-control" id="url" name="url"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="filename">Filename (as it will be saved, optional)</label>
+                                            <input type="text" style="width:500px" value="" class="form-control" id="filename" name="filename"
+                                                   placeholder="">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="tokensubmit"><i class="fa fa-spinner fa-spin" id="spinner"></i> Submit</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h1 id="messagetitte"></h1>
+                </div>
+                <div class="modal-body">
+                    <div id="messagebody"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+{% block customjs %}
+    <script type="text/javascript">
+        ;(function($){
+            $(document).ready(function(){
+                $("#spinner2").hide();
+
+                $("#dashboardtabs").delegate("li","click",function(){
+                    var target = $(this).find("a").attr("href");
+                    $("#dashboardtabs").find("li").removeClass("active");
+                    $(this).addClass("active");
+                    $("#tokengen, #phargen").hide();
+                    $(target).show();
+                    return false;
+                });
+
+                $("#generatephar").on("click",function(){
+                    $("#downloadphar").remove();
+                    var password = $("#password").val();
+                    if(password){
+                        $("#spinner2").show();
+                        $.post("/api/phar",{password:password},function(data){
+                            $("#spinner2").hide();
+                            if(data.error==0){
+                                $("#help").show();
+                                $("<a>").addClass("btn btn-success")
+                                        .html("Download Your Personalized Phar")
+                                        .attr({"id":"downloadphar","href":"/api/download"})
+                                        .appendTo($("#pharbuttons"));
+                            }
+                        },"json");
+
+                    }else{
+                        $("#messagetitte").html("Error!");
+                        $("#messagebody").html('<div class="alert alert-danger">Blank password is not acceptable, sorry!</div>');
+                        $("#message").modal("show");
+                    }
+                    return false;
+                });
+
+                $("#pharbuttons").delegate("#downloadphar","click",function(){
+                    setTimeout(function(){
+                        $.post("/api/clean",{},function(data){
+                            $("#downloadphar").remove();
+                            //console.log(data);
+                        })
+                    },10000)
+                });
+            });
+
+
+        })(jQuery);
+    </script>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{
+    "files": ["data/data.php"],
+    "main": "bin/web2copy.php",
+    "output": "web2copy.phar",
+    "stub": true
+}

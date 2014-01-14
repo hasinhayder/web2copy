@@ -1,0 +1,175 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div class="main">
+                        <h1 id="web2copy">Web 2 Copy</h1>
+
+                        <h2>Send files directly to your Copy.com storage from Web</h2>
+                        {#<p>Web2Copy is a free service to help you download files directly to your copy.com storage, and to send files to your friend's copy.com folder</p>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="teaser">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="teasertext">
+                        <h1>Web2Copy can help you save lots of time by automating the process. Your friends can also
+                            send files to you very easily. Premium plans support even bigger file size </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>
+                        Using Web2Copy you can download any remote file directly to your COPY.com storage. You can do it
+                        from anywhere, even using a mobile phone. Web2Copy is Free and gives a nice API for the
+                        developers.
+                    </h2>
+
+                    <div class="pages">
+                        <i class="fa fa-square"></i>
+                        <i class="fa fa-square-o"></i>
+                        <i class="fa fa-square-o"></i>
+                        <i class="fa fa-square-o"></i>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <img class="responsive" width="100%" src="/img/hipster2.png" alt=""/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="feature">
+
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="feature">
+                        <h2><i class="fa title fa-gears"></i> HOW IT WORKS</h2>
+
+                        <p>
+                            Web2Copy requires write access to your copy.com storage, and we don't use it for any other
+                            purposes
+                            other than transferring files to your account. You will be able to develop excellent
+                            appications using our API which is in staging phase and will be released soon.
+                        </p>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <br/>
+
+                                <p>
+                                    <i class="fa fa-check"></i> Connect to your copy.com account using oAuth <br/>
+                                    <i class="fa fa-check"></i> Generate tokens and link them to a folder in your
+                                    storage<br/>
+                                    <i class="fa fa-check"></i> Set how many times a token can be used <br/>
+                                    <i class="fa fa-check"></i> Click on "Use a Token" to use it anytime, anywhere <br/>
+                                    <i class="fa fa-check"></i> Share these tokens with friends so that they can
+                                    transfer files to you, too!<br/>
+                                    <i class="fa fa-check"></i> Download your personalized phar files to upload from shell/terminal
+                                </p>
+
+                                <p class="signup">
+                                    <a href="/connect" class="btn btn-warning">Signup / Login</a> or <a
+                                            class="btn btn-success" data-toggle="modal" data-target="#myModal">Send a
+                                        File
+                                    </a>
+
+                                    <br/>* By signing up, you agree to the <a href="/pages/tc">Terms & Conditions</a>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h1>Want to use a token? Here you go!</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="mainform">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <form action="" method="POST" id="tokenizer">
+                                        <div class="form-group">
+                                            <label for="number">Token</label>
+                                            <input type="text" class="form-control" style="width:300px" id="token"
+                                                   placeholder="token" name="token" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="path">URL (should start with http/https)</label>
+                                            <input type="text" style="width:500px" value="" class="form-control"
+                                                   id="url" name="url"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="filename">Filename (as it will be saved, optional)</label>
+                                            <input type="text" style="width:500px" value="" class="form-control"
+                                                   id="filename" name="filename"
+                                                   placeholder="">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="tokensubmit"><i class="fa fa-spinner fa-spin"
+                                                                                      id="spinner"></i> Submit
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h1 id="messagetitte"></h1>
+                </div>
+                <div class="modal-body">
+                    <div id="messagebody"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
