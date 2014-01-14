@@ -5,8 +5,6 @@ $page = $pageParams[0];
 if($page=="about-us"){
     echo $twig->render("aboutus.html.twig");
 }else if($page=="tc"){
-    $tm = new \webtocopy\entities\token($conn);
-    $tm->saveToken("/web2copy/",12,"100000");
     echo $twig->render("tos.html.twig");
 }else if($page=="api"){
     echo $twig->render("api.html.twig");
