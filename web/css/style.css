@@ -193,6 +193,9 @@ p.signup{
 .err, .success{
     display: none;
 }
+.urlerror{
+    width: 500px;
+}
 
 /** Dashboard **/
 #dashboardtabs a{
