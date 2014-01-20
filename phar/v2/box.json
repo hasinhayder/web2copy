@@ -1,5 +1,5 @@
 {
-    "files": ["data/data.php","libs/copy.php","libs/ca.crt"],
+    "files": ["data/data.php","libs/copy.php","libs/ca.crt","libs/OAuthSimple.php"],
     "main": "bin/web2copy.php",
     "output": "web2copy.phar",
     "stub": true

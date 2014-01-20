@@ -4,6 +4,7 @@ error_reporting(0);
 global $data;
 require __DIR__ . '/../data/data.php';
 require __DIR__ . '/../libs/copy.php';
+require __DIR__ . '/../libs/OAuthSimple.php';
 $head = <<<ETD
 
 

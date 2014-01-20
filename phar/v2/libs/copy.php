@@ -1,7 +1,6 @@
 <?php
 
 namespace Barracuda\Copy;
-
 /**
  * Copy API class
  *
@@ -27,7 +26,9 @@ class API
      * Instance of OAuth
      * @var OAuth $oauth
      */
-    private $oauth;
+//    private $oauth;
+    private $oauthSimple;
+    private $signature;
 
     /**
      * Instance of curl
@@ -49,9 +50,13 @@ class API
         // debug flag
         $this->debug = $debug;
 
-        // oauth setup
-        $this->oauth = new \OAuth($consumerKey, $consumerSecret);
-        $this->oauth->setToken($accessToken, $tokenSecret);
+
+        $this->signature = array(
+            'consumer_key' => $consumerKey,
+            'shared_secret' => $consumerSecret,
+            'oauth_token'=>$accessToken,
+            'oauth_secret'=>$tokenSecret
+        );
 
         // curl setup
         $this->curl = curl_init();
@@ -59,12 +64,6 @@ class API
             throw new \Exception("Failed to initialize curl");
         }
 
-        // ca bundle
-//        echo __DIR__;
-//        if (!is_file(__DIR__ . '/ca.crt')) {
-//            throw new \Exception("Failed to load ca certificate");
-//        }
-//        curl_setopt($this->curl, CURLOPT_CAINFO, __DIR__ . '/ca.crt');
     }
 
     /**
@@ -557,6 +556,9 @@ class API
         $headers = array();
         $endpoint = "jsonrpc";
 
+        $oauthSimple = new \OAuthSimple();
+
+
         if ($method == "has_object_parts" || $method == "send_object_parts" || $method == "get_object_parts") {
             array_push($headers, "Content-Type: application/octect-stream");
         }
@@ -564,8 +566,12 @@ class API
         array_push($headers, "X-Api-Version: 1.0");
         array_push($headers, "X-Client-Type: api");
         array_push($headers, "X-Client-Time: " . time());
-        array_push($headers, "Authorization: " .  $this->oauth->getRequestHeader('POST', $this->api_url . "/" . $this->GetEndpoint($method)));
-
+        //array_push($headers, "Authorization: " .  $this->oauth->getRequestHeader('POST', $this->api_url . "/" . $this->GetEndpoint($method)));
+        $oauthSimple->setAction("POST");
+        $oAuthSignature = $oauthSimple->sign(array(
+            'path'      =>  $this->api_url . "/" . $this->GetEndpoint($method),
+            'signatures'=> $this->signature));
+        array_push($headers, "Authorization: " .  $oAuthSignature['header']);
         return $headers;
     }
 
