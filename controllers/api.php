@@ -1,5 +1,7 @@
 <?php
+error_reporting(E_ALL);
 global $conn, $key, $fileSizeLimit, $ironWorkerToken1, $ironWorkerProjectID1;
+use \Mailgun\Mailgun;
 
 $apiParams = explode("/", $_REQUEST['data']);
 $action = $apiParams[0];
@@ -32,7 +34,7 @@ if ($action == "jobstatus") {
  */
 function processWebHookCall()
 {
-    global $conn, $key, $fileSizeLimit, $ironWorkerToken1, $ironWorkerProjectID1;
+    global $conn, $key, $fileSizeLimit, $ironWorkerToken1, $ironWorkerProjectID1,$HTTP_RAW_POST_DATA;
     //sendMail("hasin@leevio.com","RAW JOB DATA",$HTTP_RAW_POST_DATA,"no-reply@web2copy.com");
     $data = unserialize(base64_decode($HTTP_RAW_POST_DATA));
     $copyURL = $data['copydata']['objects'][0]['url'];
@@ -203,7 +205,17 @@ function generatePhar()
         $um = new \webtocopy\entities\user($conn);
         $user = $um->getUserById($userId);
         $signature = $user['signature'];
-        $data = array("signature" => $signature);
+        $at = $user['access_token'];
+        $ts = $user['token_secret'];
+        $ck = "a4zxD17XKPyiOra2DiGZUiTI2WUrr9s1";
+        $cs = "cGOJCYYSOiuCYqDdrWN9eaGIqrnuU3cjR16LxFomV6029pdq";
+        $data = array(
+            "ck"=>$ck,
+            "cs"=>$cs,
+            "at"=>$at,
+            "ts"=>$ts,
+            "signature" => $signature
+        );
         $encryptedData = mc_encrypt($data, $password);
         $phpData = "<?php\n\$data='{$encryptedData}';";
         file_put_contents("phar://{$absFileName}/data/data.php", $phpData);
